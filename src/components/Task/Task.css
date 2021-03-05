@@ -1,0 +1,4 @@
+.todo-list li div .completed-task {
+  color: #cdcdcd;
+  text-decoration: line-through;
+}
