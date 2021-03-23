@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 
 import Footer from '../Footer';
 import NewTaskForm from '../NewTaskForm';
-import Task from '../Task';
 import TaskList from '../TaskList';
-import TasksFilter from '../TasksFilter';
 
 
 export default class App extends Component {
@@ -26,7 +24,6 @@ export default class App extends Component {
 			done: false,
 			id: this.maxId++
 		}
-		
 	}
 
 	deleteItem = (id) => {
@@ -43,36 +40,33 @@ export default class App extends Component {
 
 	addItem = (text) => {
 		const newItem = this.createTodoItem(text);
-		 this.setState(({ todoData }) => {
-			 const newArr = [
-				 ...todoData,
-				 newItem
-			 ];
-			 return {
-				 todoData: newArr
-			 }
-		 })
+		this.setState(({ todoData }) => {
+			const newArr = [
+			...todoData,
+				newItem
+			];
+			return {
+				todoData: newArr
+			}
+		})
 	};
 
 	toggleProperty(arr, id, propName) {
 		const idx = arr.findIndex((el) => el.id === id);
-			const oldItem = arr[idx];
-			const newItem = {...oldItem, 
+		const oldItem = arr[idx];
+		const newItem = {...oldItem, 
 				[propName]: !oldItem[propName]};
 
 				return [
 					...arr.slice(0, idx), 
 					newItem,
 					...arr.slice(idx + 1)
-				];
-
-				
+				];				
 	}
 
 	onToggleDone = (id) => {
 		this.setState(({ todoData }) => {
-			
-				return {
+			return {
 					todoData: this.toggleProperty(todoData, id, 'done')
 				};
 		});
@@ -97,9 +91,10 @@ export default class App extends Component {
 				  <TaskList todos={todoData}
 				  onDeleted={ this.deleteItem }
 				  onToggleDone = {this.onToggleDone}/>
+				  <span className="todo-count">{todoCount} items left</span>
 				 
 				 <Footer />
-				 <span>{ (new Date()).toString() }</span>
+				 
 			  </section>
 			  
 			</section>

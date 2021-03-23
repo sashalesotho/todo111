@@ -1,17 +1,26 @@
 import React from 'react';
-import TasksFilter from '../TasksFilter/TasksFilter'
+import TasksFilter from '../TasksFilter/TasksFilter';
 
-const Footer = (props) => {
+export default class Footer extends React.Component {
+	constructor() {
+		super()
+		
+	}
+	render() {
+	
 
-	return (
-		<footer className="footer">
-				<span className="todo-count">{props.todoCount} items left</span>
-				<TasksFilter />
-				<button className="clear-completed">Clear completed</button>
-		</footer>
+	
 
-	)
+		return (
+			<footer className="footer">
+					
+					<TasksFilter />
+					<button className="clear-completed">Clear completed</button>
+			</footer>
+		)
 	}
 
-	export default Footer;
+	}
+
+
 
