@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import Footer from '../Footer';
 import NewTaskForm from '../NewTaskForm';
 import TaskList from '../TaskList';
+import TasksFilter from '../TasksFilter/TasksFilter';
 
 
 export default class App extends Component {
@@ -11,18 +12,18 @@ export default class App extends Component {
 	maxId = 100;
 	state = {
 		todoData: [
-			this.createTodoItem('Completed task'),
-			this.createTodoItem('Editing task'),
-			this.createTodoItem('Active task')
-	
-		]
+			{id: 1, label: "Completed task", done: false},
+			{id: 2, label: "Editing task", done: false},
+			{id: 3, label: "Active task", done: false}
+		],
+		filter: "all"
 	};
 
 	createTodoItem(label) {
 		return {
 			label,
 			done: false,
-			id: this.maxId++
+			id: ++this.maxId
 		}
 	}
 
@@ -39,8 +40,9 @@ export default class App extends Component {
 	};
 
 	addItem = (text) => {
-		const newItem = this.createTodoItem(text);
-		this.setState(({ todoData }) => {
+			this.setState(({ todoData }) => {
+			const newItem = this.createTodoItem(text);
+
 			const newArr = [
 			...todoData,
 				newItem
@@ -62,7 +64,7 @@ export default class App extends Component {
 					newItem,
 					...arr.slice(idx + 1)
 				];				
-	}
+	};
 
 	onToggleDone = (id) => {
 		this.setState(({ todoData }) => {
@@ -73,33 +75,52 @@ export default class App extends Component {
 
 	};
 
+	filterChange = (filter) => {
+		this.setState({ filter });
+	}
+
+	filterItems = (todoData, filter) => {
+		if (filter === "all") {
+			return todoData;
+		} else if (filter === "active") {
+			return todoData.filter((item) => (!item.done));
+		} else if (filter === "done") {
+			return todoData.filter((item) => item.done);
+		}
+	}
+
 	render() {
 
-		const { todoData } = this.state;
+		const { todoData, filter } = this.state;
 
 		const doneCount = todoData
 		.filter((el) => el.done).length;
 
-	const todoCount = todoData.length - doneCount;
+		const todoCount = todoData.length - doneCount;
+
+		const visibleItems = this.filterItems(todoData, filter);
+
 
 		return (
 			<div>
 			<section className="todoapp">
-			  
-			  <section className="main">
-				  <NewTaskForm onItemAdded={this.addItem}/>
-				  <TaskList todos={todoData}
-				  onDeleted={ this.deleteItem }
-				  onToggleDone = {this.onToggleDone}/>
-				  <span className="todo-count">{todoCount} items left</span>
-				 
-				 <Footer />
-				 
-			  </section>
-			  
+			
+				<section className="main">
+					<NewTaskForm onItemAdded={this.addItem}/>
+					<TaskList todos={visibleItems}
+					onDeleted={ this.deleteItem }
+					onToggleDone = {this.onToggleDone}/>
+					<span className="todo-count">{todoCount} items left</span>
+					<TasksFilter filter={filter}
+					filterChange={this.filterChange}/>
+
+					<Footer />
+
+				</section>
+
 			</section>
 		
-		 </div>
+			</div>
 		)
 	}
 	
