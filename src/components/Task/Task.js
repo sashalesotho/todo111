@@ -1,12 +1,15 @@
 import React from 'react';
 import './Task.css';
+import {formatDistanceToNow} from 'date-fns';
 
-const Task = ( { label, onDeleted, onToggleDone, done } ) => {
+const Task = ( { label, onDeleted, onToggleDone, done} ) => {
 
 		let classNames = 'todo-list-item';
 		if (done) {
 			classNames += ' completed-task';
 		}
+		
+		let createdDate = new Date()
 
 		return (
 		<span className='todo-list-item'>
@@ -19,10 +22,11 @@ const Task = ( { label, onDeleted, onToggleDone, done } ) => {
 
 					<label>                                       
 						<span className={classNames}>{ label }</span>
-						<span className="created">created 17 seconds ago</span>
+						<span className="created">created {formatDistanceToNow(createdDate, {includeSeconds: true})} ago</span>
 					</label>
 
-					<button className="icon icon-edit btn">
+					<button className="icon icon-edit btn"
+					onClick={() => console.log(`edit: ${label}`)}>
 						<i className="fa fa-edit" />
 					</button>
 

@@ -89,6 +89,16 @@ export default class App extends Component {
 		}
 	}
 
+	clearCompleted = () => {
+		this.setState(({ todoData }) => {
+			const resArr = todoData.filter((el) => !el.done);
+			return {
+				todoData: resArr,
+			};
+		});
+	};
+
+
 	render() {
 
 		const { todoData, filter } = this.state;
@@ -114,7 +124,7 @@ export default class App extends Component {
 					<TasksFilter filter={filter}
 					filterChange={this.filterChange}/>
 
-					<Footer />
+					<Footer clearCompleted={this.clearCompleted}/>
 
 				</section>
 

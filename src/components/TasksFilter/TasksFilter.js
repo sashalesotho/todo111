@@ -20,6 +20,7 @@ const TasksFilter = ( {filter, filterChange} ) => {
 				className={classNames}>
 					{label}
 				</button>
+				
 			);
 		});
 
