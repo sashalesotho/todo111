@@ -2,7 +2,7 @@ import React from 'react';
 import Task from '../Task';
 import './TaskList.css';
 
-const TaskList = ({ todos, onDeleted, onToggleDone }) => {
+const TaskList = ({ todos, onDeleted, onToggleDone, changeItem, onSubmit, onChangeHandler}) => {
 
 	const elements = todos.map((item) => {
 		return (
@@ -11,7 +11,16 @@ const TaskList = ({ todos, onDeleted, onToggleDone }) => {
 
 			<Task { ...item } 
 		onDeleted={() => onDeleted(item.id)}
-		onToggleDone={() => onToggleDone(item.id)}/>
+		onToggleDone={() => onToggleDone(item.id)}
+		stateTask={item.label}
+		key={item.id}
+		changeItem={(e) => {
+			changeItem(item.id, e)
+		}}
+		editing={item.editing}
+		onSubmit={(e) => onSubmit(item.id, e)}
+		onChangeHandler={(e) => onChangeHandler(item.id, e)}
+		/>
 
 		</li>
 		);

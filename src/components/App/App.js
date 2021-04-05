@@ -7,14 +7,15 @@ import TaskList from '../TaskList';
 import TasksFilter from '../TasksFilter/TasksFilter';
 
 
+
 export default class App extends Component {
 
 	maxId = 100;
 	state = {
 		todoData: [
-			{id: 1, label: "Completed task", done: false},
-			{id: 2, label: "Editing task", done: false},
-			{id: 3, label: "Active task", done: false}
+			{id: 1, label: "Completed task", done: false, editing: false},
+			{id: 2, label: "Editing task", done: false, editing: false},
+			{id: 3, label: "Active task", done: false, editing: false}
 		],
 		filter: "all"
 	};
@@ -23,7 +24,8 @@ export default class App extends Component {
 		return {
 			label,
 			done: false,
-			id: ++this.maxId
+			id: ++this.maxId,
+			editing: false
 		}
 	}
 
@@ -98,6 +100,51 @@ export default class App extends Component {
 		});
 	};
 
+changeItem = (id) => {
+	this.setState(( {todoData} ) => {
+		const idx = todoData.findIndex((el) => el.id === id);
+		const oldItem = todoData[idx];
+		const newItem = { ...oldItem, editing: !oldItem.editing};
+		const newArr = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
+
+		
+			return {
+			 todoData: newArr
+			}
+	})
+
+}
+
+onChangeHandler = (id, e) => {
+	
+	this.setState(({ todoData }) => {
+		const idx = todoData.findIndex((el) => el.id === id);
+		const oldItem = todoData[idx];
+		const newItem = {...oldItem, label: e.target.value };
+		const newArray = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
+		return {
+			todoData: newArray
+		}
+	})
+}
+
+onSubmit = (id, e) => {
+	e.preventDefault();
+	this.setState(({ todoData }) => {
+		const idx = todoData.findIndex((el) => el.id === id);
+		const oldItem = todoData[idx];
+		const newItem = {
+			...oldItem,
+			editing: !oldItem.editing,
+		}
+		const newArray = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
+		return {
+			todoData: newArray
+		}
+	})
+}
+
+	
 
 	render() {
 
@@ -119,7 +166,12 @@ export default class App extends Component {
 					<NewTaskForm onItemAdded={this.addItem}/>
 					<TaskList todos={visibleItems}
 					onDeleted={ this.deleteItem }
-					onToggleDone = {this.onToggleDone}/>
+					onToggleDone = {this.onToggleDone}
+					changeItem={this.changeItem}
+					onChangeHandler={this.onChangeHandler}
+					onSubmit={this.onSubmit}
+					
+					/>
 					<span className="todo-count">{todoCount} items left</span>
 					<TasksFilter filter={filter}
 					filterChange={this.filterChange}/>
