@@ -224,7 +224,7 @@ body {
 }
 
 .todo-list li label .description {
-  word-break: break-all;
+  word-break: normal;
   display: block;
   line-height: 1.2;
   transition: color 0.4s;
@@ -278,7 +278,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 15px;
+  padding: 15px 10px 25px;
   height: 20px;
   text-align: center;
   font-size: 15px;
@@ -302,6 +302,7 @@ body {
 
 .todo-count {
   text-align: left;
+  padding: 15px;
 }
 
 .todo-count strong {
