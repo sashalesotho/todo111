@@ -19,7 +19,7 @@ const Task = ({
     classNames += ' completed-task';
   }
 
-  let createdDate = new Date();
+  const createdDate = new Date();
 
   let editingTask;
   if (editing) {
@@ -45,11 +45,13 @@ const Task = ({
           </span>
         </label>
 
-        <button className="icon icon-edit btn" onClick={changeItem}>
+        <button className="icon icon-edit btn" onClick={changeItem}
+		type="button">
           <i className="fa fa-edit" />
         </button>
 
-        <button className="icon icon-destroy btn" onClick={onDeleted}>
+        <button className="icon icon-destroy btn" onClick={onDeleted}
+		type="button">
           <i className="fa fa-trash-o" />
         </button>
       </div>
@@ -63,14 +65,25 @@ const Task = ({
   );
 };
 
+Task.defaultProps = {
+	onDeleted: () => {},
+	onToggleDone: () => {},
+	done: false,
+	changeItem: () => {},
+	editing: false,
+	onChangeHandler: () => {},
+	stateTask: '',
+	onSubmit: () => {},
+}
+
 Task.propTypes = {
-  nDeleted: PropTypes.func,
+  onDeleted: PropTypes.func,
   onToggleDone: PropTypes.func,
-  done: PropTypes.bool.isRequired,
+  done: PropTypes.bool,
   changeItem: PropTypes.func,
-  editing: PropTypes.bool.isRequired,
+  editing: PropTypes.bool,
   onChangeHandler: PropTypes.func,
-  stateTask: PropTypes.string.isRequired,
+  stateTask: PropTypes.string,
   onSubmit: PropTypes.func,
 };
 
