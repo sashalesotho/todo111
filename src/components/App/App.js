@@ -138,7 +138,9 @@ return visibleItems
 
     const doneCount = todoData.filter((el) => el.done).length;
 
-    const todoCount = todoData.length - doneCount;
+	const todoCount = todoData.length - doneCount;
+	
+	const visibleItems = this.filterItems(todoData, filter);
 
     
 
@@ -148,7 +150,7 @@ return visibleItems
           <section className="main">
             <NewTaskForm onItemAdded={this.addItem} />
             <TaskList
-              todos={this.filterItems}
+              todos={ visibleItems }
               onDeleted={this.deleteItem}
               onToggleDone={this.onToggleDone}
               changeItem={this.changeItem}

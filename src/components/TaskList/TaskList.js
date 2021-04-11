@@ -17,7 +17,8 @@ const TaskList = ({ todos, onDeleted, onToggleDone, changeItem, onSubmit, onChan
             changeItem(item.id, e);
           }}
           editing={item.editing}
-          onSubmit={(e) => onSubmit(item.id, e)}
+			onSubmit={(e) => onSubmit(item.id, e)}
+			
           onChangeHandler={(e) => onChangeHandler(item.id, e)}
         />
       </li>
@@ -27,7 +28,6 @@ const TaskList = ({ todos, onDeleted, onToggleDone, changeItem, onSubmit, onChan
 };
 
 TaskList.defaultProps = {
-	todos: [],
 	onDeleted: () => {},
 	onToggleDone: () => {},
 	changeItem: () => {},
@@ -36,7 +36,7 @@ TaskList.defaultProps = {
 }
 
 TaskList.propTypes = {
-	todos: PropTypes.arrayOf(PropTypes.string),
+	todos: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 	onDeleted: PropTypes.func,
 	onToggleDone: PropTypes.func,
 	changeItem: PropTypes.func,
