@@ -29,13 +29,12 @@ export default class App extends Component {
     });
   };
 
-  addItem = (text) => {
-    this.setState(({ todoData }) => {
-      const newItem = this.createTodoItem(text);
+  onItemAdded = (label) => {
+    this.setState((state) => {
+      const item = this.createTodoItem(label);
 
-      const newArr = [...todoData, newItem];
       return {
-        todoData: newArr,
+        todoData: [...state.todoData, item],
       };
     });
   };
@@ -148,7 +147,7 @@ return visibleItems
       <div>
         <section className="todoapp">
           <section className="main">
-            <NewTaskForm onItemAdded={this.addItem} />
+            <NewTaskForm onItemAdded={this.onItemAdded} />
             <TaskList
               todos={ visibleItems }
               onDeleted={this.deleteItem}

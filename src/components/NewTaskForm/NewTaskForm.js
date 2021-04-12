@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
 
 export default class NewTaskForm extends Component {
 	
-
+		
 		state = {
 			label: ''
 		};
+
 
 		onLabelChange = (e) => {
 			this.setState({
@@ -15,14 +16,18 @@ export default class NewTaskForm extends Component {
 			};
 
 		onSubmit = (e) => {
-			e.preventDefault();
+			const { onItemAdded } = this.props;
 			const { label } = this.state;
-			this.setState({ label: ''});
-			
-			const cb = this.onItemAdded || (() => {});  
-			cb(label);
+			e.preventDefault();
+			onItemAdded(label);
+			this.setState({
+				label: ''
+			})
 		};
-
+	
+	
+		
+		
 	render() {
 		return (
 		<form
@@ -36,15 +41,24 @@ export default class NewTaskForm extends Component {
 				// 1)чтобы получать текущее значение инпута используем событие onChange, каждый раз когда значение инпута меняется, вызываем функцию onLabelChange и используя объект event, достаем из него текущее значение поля
 				type="text"
 				className="new-todo"
+				value={this.label}
 				placeholder="What needs to be done?"
 				onChange={this.onLabelChange}
-				value={this.label}
-			/>
+				/>
+				
 		</form>
 		);
 	}
 	}
 
+	NewTaskForm.defaultProps = {
+		onItemAdded: () => {}
+	}
+
+	NewTaskForm.propTypes = {
+		onItemAdded: PropTypes.func
+
+	}
 	
 
 
