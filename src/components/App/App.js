@@ -41,8 +41,8 @@ export default class App extends Component {
 
   onToggleDone = (id) => {
     this.setState(({ todoData }) => ({
-        todoData: this.toggleProperty(todoData, id, 'done'),
-      }));
+      todoData: this.toggleProperty(todoData, id, 'done'),
+    }));
   };
 
   filterChange = (filter) => {
@@ -100,48 +100,45 @@ export default class App extends Component {
   };
 
   createTodoItem(label) {
-	return {
-	label,
-	done: false,
-	id: ++this.maxId,
-	editing: false,
-	};
- }
+    return {
+      label,
+      done: false,
+      id: ++this.maxId,
+      editing: false,
+    };
+  }
 
- toggleProperty(arr, id, propName) {
-	const idx = arr.findIndex((el) => el.id === id);
-	const oldItem = arr[idx];
-	const newItem = { ...oldItem, [propName]: !oldItem[propName] };
+  toggleProperty(arr, id, propName) {
+    const idx = arr.findIndex((el) => el.id === id);
+    const oldItem = arr[idx];
+    const newItem = { ...oldItem, [propName]: !oldItem[propName] };
 
-	return [...arr.slice(0, idx), newItem, ...arr.slice(idx + 1)];
- }
+    return [...arr.slice(0, idx), newItem, ...arr.slice(idx + 1)];
+  }
 
-filterItems(todoData, filter) {
+  filterItems(todoData, filter) {
+    let visibleItems = todoData;
 
-	let visibleItems = todoData;
-
-   if (filter === 'all') {
-		visibleItems = todoData;
-	}
-if (filter === 'active') {
-      visibleItems = todoData.filter((item) => (!item.done));
-}
-if (filter === 'done') {
-visibleItems = todoData.filter((item) => item.done);
-}
-return visibleItems
-}
+    if (filter === 'all') {
+      visibleItems = todoData;
+    }
+    if (filter === 'active') {
+      visibleItems = todoData.filter((item) => !item.done);
+    }
+    if (filter === 'done') {
+      visibleItems = todoData.filter((item) => item.done);
+    }
+    return visibleItems;
+  }
 
   render() {
     const { todoData, filter } = this.state;
 
     const doneCount = todoData.filter((el) => el.done).length;
 
-	const todoCount = todoData.length - doneCount;
-	
-	const visibleItems = this.filterItems(todoData, filter);
+    const todoCount = todoData.length - doneCount;
 
-    
+    const visibleItems = this.filterItems(todoData, filter);
 
     return (
       <div>
@@ -149,7 +146,7 @@ return visibleItems
           <section className="main">
             <NewTaskForm onItemAdded={this.onItemAdded} />
             <TaskList
-              todos={ visibleItems }
+              todos={visibleItems}
               onDeleted={this.deleteItem}
               onToggleDone={this.onToggleDone}
               changeItem={this.changeItem}
