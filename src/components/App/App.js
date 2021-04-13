@@ -4,7 +4,7 @@ import './App.css';
 import Footer from '../Footer';
 import NewTaskForm from '../NewTaskForm';
 import TaskList from '../TaskList';
-import TasksFilter from '../TasksFilter/TasksFilter';
+
 
 export default class App extends Component {
   maxId = 100;
@@ -133,11 +133,12 @@ export default class App extends Component {
   }
 
   render() {
-    const { todoData, filter } = this.state;
 
-    const doneCount = todoData.filter((el) => el.done).length;
+	const { todoData, filter } = this.state;
 
-    const todoCount = todoData.length - doneCount;
+	const doneCount = todoData.filter((el) => el.done).length;
+
+	const todoCount = todoData.length - doneCount;
 
     const visibleItems = this.filterItems(todoData, filter);
 
@@ -154,10 +155,11 @@ export default class App extends Component {
               onChangeHandler={this.onChangeHandler}
               onSubmit={this.onSubmit}
             />
-            <span className="todo-count">{todoCount} items left</span>
-            <TasksFilter filter={filter} filterChange={this.filterChange} />
 
-            <Footer clearCompleted={this.clearCompleted} />
+            <Footer clearCompleted={this.clearCompleted} 
+				filter={filter} filterChange={this.filterChange}
+				todoCount={todoCount}
+				doneCount={doneCount} />
           </section>
         </section>
       </div>
