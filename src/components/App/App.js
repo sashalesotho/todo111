@@ -72,15 +72,17 @@ export default class App extends Component {
 	};
 
 	onChangeHandler = (id, e) => {
-		this.setState(({ todoData }) => {
-			const idx = todoData.findIndex((el) => el.id === id);
-			const oldItem = todoData[idx];
-			const newItem = { ...oldItem, label: e.target.value };
-			const newArray = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
-			return {
-				todoData: newArray,
-			};
-		});
+		if (e.target.value.trim().length) {
+			this.setState(({ todoData }) => {
+				const idx = todoData.findIndex((el) => el.id === id);
+				const oldItem = todoData[idx];
+				const newItem = { ...oldItem, label: e.target.value };
+				const newArray = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
+				return {
+					todoData: newArray,
+				};
+			});
+		}
 	};
 
 	onSubmit = (id, e) => {
