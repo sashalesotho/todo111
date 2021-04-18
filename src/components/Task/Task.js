@@ -16,7 +16,7 @@ const Task = ({ onDeleted, onToggleDone, done, changeItem, editing, onChangeHand
 	if (editing) {
 		task = (
 			<label className={classNames}>
-				<input className="description form-control" onChange={onChangeHandler} defaultValue={stateTask} />{' '}
+				<input className="description form-control" onChange={onChangeHandler} defaultValue={stateTask} required/>{' '}
 			</label>
 		);
 	} else {

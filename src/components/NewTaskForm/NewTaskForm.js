@@ -7,7 +7,7 @@ export default class NewTaskForm extends Component {
 	};
 
 	onLabelChange = (e) => {
-		if (e.target.value.trim().length) {
+		if (!e.target.value || e.target.value.trim()) {
 			this.setState({
 				label: e.target.value,
 			});
@@ -26,6 +26,7 @@ export default class NewTaskForm extends Component {
 
 	render() {
 		const { label } = this.state;
+
 		return (
 			<div>
 				<form className="item-add-form d-flex" onSubmit={this.onSubmit}>
