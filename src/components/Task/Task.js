@@ -12,21 +12,20 @@ const Task = ({ onDeleted, onToggleDone, done, changeItem, editing, onChangeHand
 
 	const createdDate = new Date();
 
-	let task;
-	if (editing) {
-		task = (
-			<label className={classNames}>
-				<input className="description form-control" onChange={onChangeHandler} defaultValue={stateTask} required/>{' '}
-			</label>
-		);
-	} else {
-		task = (
+	const getTaskMarkup = () => {
+		if (editing) {
+			return (
+				<label className={classNames}>
+					<input className="description form-control" onChange={onChangeHandler} defaultValue={stateTask} required />{' '}
+				</label>
+			);
+		}
+		return (
 			<div className={classNames}>
 				<input className="toggle" type="checkbox" checked={done} onChange={onToggleDone} />
 
 				<label>
 					<span className={classNames}>{stateTask}</span>
-
 					<span className="created">created {formatDistanceToNow(createdDate, { includeSeconds: true })} ago</span>
 				</label>
 
@@ -39,11 +38,11 @@ const Task = ({ onDeleted, onToggleDone, done, changeItem, editing, onChangeHand
 				</button>
 			</div>
 		);
-	}
+	};
 
 	return (
 		<form onSubmit={onSubmit}>
-			<div className="view">{task}</div>
+			<div className="view">{getTaskMarkup()}</div>
 		</form>
 	);
 };
