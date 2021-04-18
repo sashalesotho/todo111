@@ -72,7 +72,7 @@ export default class App extends Component {
 	};
 
 	onChangeHandler = (id, e) => {
-		if (!e.target.value || e.target.value.trim()) {
+		if (!e.target.value && e.target.value.trim()) {
 			this.setState(({ todoData }) => {
 				const idx = todoData.findIndex((el) => el.id === id);
 				const oldItem = todoData[idx];
