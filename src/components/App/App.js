@@ -30,13 +30,15 @@ export default class App extends Component {
 	};
 
 	onItemAdded = (label) => {
-		this.setState((state) => {
-			const item = this.createTodoItem(label);
+		if (label.trim().length !== 0) {
+			this.setState((state) => {
+				const item = this.createTodoItem(label);
 
-			return {
-				todoData: [...state.todoData, item],
-			};
-		});
+				return {
+					todoData: [...state.todoData, item],
+				};
+			});
+		}
 	};
 
 	onToggleDone = (id) => {
