@@ -30,7 +30,6 @@ export default class App extends Component {
 	};
 
 	onItemAdded = (label) => {
-<<<<<<< HEAD
 		this.setState((state) => {
 			const item = this.createTodoItem(label);
 
@@ -38,17 +37,7 @@ export default class App extends Component {
 				todoData: [...state.todoData, item],
 			};
 		});
-=======
-		if (label.trim().length !== 0) {
-			this.setState((state) => {
-				const item = this.createTodoItem(label);
 
-				return {
-					todoData: [...state.todoData, item],
-				};
-			});
-		}
->>>>>>> origin/main
 	};
 
 	onToggleDone = (id) => {
@@ -153,7 +142,6 @@ export default class App extends Component {
 		const visibleItems = this.filterItems(todoData, filter);
 
 		return (
-<<<<<<< HEAD
 			<div>
 				<section className="todoapp">
 					<section className="main">
@@ -177,30 +165,7 @@ export default class App extends Component {
 					</section>
 				</section>
 			</div>
-=======
-			<section className="todoapp">
-				<h1>todos</h1>
-				<section className="main">
-					<NewTaskForm onItemAdded={this.onItemAdded} />
-					<TaskList
-						todos={visibleItems}
-						onDeleted={this.deleteItem}
-						onToggleDone={this.onToggleDone}
-						changeItem={this.changeItem}
-						onChangeHandler={this.onChangeHandler}
-						onSubmit={this.onSubmit}
-					/>
 
-					<Footer
-						clearCompleted={this.clearCompleted}
-						filter={filter}
-						filterChange={this.filterChange}
-						todoCount={todoCount}
-						doneCount={doneCount}
-					/>
-				</section>
-			</section>
->>>>>>> origin/main
 		);
 	}
 }

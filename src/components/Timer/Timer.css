@@ -9,9 +9,7 @@ font-size: 13px;
 	padding-left: 3px;
 	color: gray;
 }
-.description {
-	flex-basis: 20%;
-}
+
 .created{
 	flex-basis: 40%;
 }
