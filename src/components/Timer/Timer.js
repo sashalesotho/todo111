@@ -1,43 +1,77 @@
 import React, { Component } from 'react';
-import formatDuration from 'format-duration';
+import PropTypes from 'prop-types';
+import lightFormat from 'date-fns/lightFormat';
 import './Timer.css';
 
-class Timer extends Component {
-	state = {
-		runningTime: 0,
-		isRunning: false,
-	};
+export default class Timer extends Component {
+	constructor(props) {
+		super(props);
+		const { deadline } = this.props;
+		this.state = {
+			end: Date.now() + deadline,
+			date: deadline,
+		}
+	}
 
-	componentDidMount() {}
+	componentDidMount() {
+		this.timerID = setInterval(() => this.tick(), 1000)
+	}
 
 	componentWillUnmount() {
 		clearInterval(this.timerID);
 	}
 
-	handleStartStopClick = () => {
-		const { isRunning, runningTime } = this.state;
-		if (isRunning) {
-			clearInterval(this.timerID);
-			this.setState({ isRunning: false });
-		} else {
-			const startTime = Date.now() - runningTime;
-			this.timerID = setInterval(() => {
-				this.setState({ runningTime: Date.now() - startTime, isRunning: true });
-			}, 100);
+	stop = () => {
+		const { date } = this.state;
+		const { timerOff } = this.props;
+		timerOff(date);
+	}
+
+	start = () => {
+		const { timerOn, deadline, countdown } = this.props;
+		if (countdown) return;
+		this.setState({
+			end: Date.now() + deadline,
+		});
+		timerOn()
+	}
+
+	tick() {
+		const { countdown, timerOff } = this.props;
+		if (!countdown) return;
+		const { end } = this.state;
+		const deadline = end - Date.now();
+		if (deadline <= 1000) {
+			timerOff('x');
 		}
-	};
+		this.setState({
+			date: deadline,
+		})
+	}
 
 	render() {
-		const { runningTime, isRunning } = this.state;
+		const { date } = this.state;
 		return (
 			<div className="timer">
-				<div className="display">{formatDuration(runningTime)}</div>
-				<button type="button" className="timer-btn" onClick={this.handleStartStopClick}>
-					{isRunning ? <i className="fa fa-pause" /> : <i className="fa fa-play" />}
-				</button>
+				<button type='button' className='timer-btn' onClick={this.start} aria-label='start'><i className="fa fa-play" /></button>
+				<button type='button' className='timer-btn' onClick={this.stop} aria-label='stop'><i className="fa fa-pause" /></button>
+				<div className="display">{lightFormat(new Date(date), ' mm-ss')}</div>
 			</div>
 		);
 	}
 }
 
-export default Timer;
+Timer.defaultProps = {
+	timerOn: () => {},
+	timerOff: () => {},
+	deadline: 0,
+	countdown: false,
+}
+
+Timer.propTypes = {
+	timerOn: PropTypes.func,
+	timerOff: PropTypes.func,
+	deadline: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+	countdown: PropTypes.bool,
+}
+
