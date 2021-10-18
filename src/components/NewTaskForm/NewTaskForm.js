@@ -7,9 +7,12 @@ export default class NewTaskForm extends Component {
 	};
 
 	onLabelChange = (e) => {
-		this.setState({
-			label: e.target.value,
-		});
+		if (e.target.value.trim().length) {
+			this.setState({
+				label: e.target.value,
+			});
+		}
+
 	};
 
 	onSubmit = (e) => {
@@ -28,6 +31,10 @@ export default class NewTaskForm extends Component {
 		return (
 			<div>
 				<form className="item-add-form d-flex" onSubmit={this.onSubmit}>
+
+					<h1>todos</h1>
+
+
 					<input
 						type="text"
 						className="new-todo"
@@ -35,6 +42,9 @@ export default class NewTaskForm extends Component {
 						placeholder="What needs to be done?"
 						onChange={this.onLabelChange}
 						required
+
+						// pattern = '[a-z]{1,15}'
+
 					/>
 				</form>
 			</div>

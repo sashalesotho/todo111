@@ -30,15 +30,14 @@ export default class App extends Component {
 	};
 
 	onItemAdded = (label) => {
-		if (label.trim().length !== 0) {
-			this.setState((state) => {
-				const item = this.createTodoItem(label);
+		this.setState((state) => {
+			const item = this.createTodoItem(label);
 
-				return {
-					todoData: [...state.todoData, item],
-				};
-			});
-		}
+			return {
+				todoData: [...state.todoData, item],
+			};
+		});
+
 	};
 
 	onToggleDone = (id) => {
@@ -143,28 +142,30 @@ export default class App extends Component {
 		const visibleItems = this.filterItems(todoData, filter);
 
 		return (
-			<section className="todoapp">
-				<h1>todos</h1>
-				<section className="main">
-					<NewTaskForm onItemAdded={this.onItemAdded} />
-					<TaskList
-						todos={visibleItems}
-						onDeleted={this.deleteItem}
-						onToggleDone={this.onToggleDone}
-						changeItem={this.changeItem}
-						onChangeHandler={this.onChangeHandler}
-						onSubmit={this.onSubmit}
-					/>
+			<div>
+				<section className="todoapp">
+					<section className="main">
+						<NewTaskForm onItemAdded={this.onItemAdded} />
+						<TaskList
+							todos={visibleItems}
+							onDeleted={this.deleteItem}
+							onToggleDone={this.onToggleDone}
+							changeItem={this.changeItem}
+							onChangeHandler={this.onChangeHandler}
+							onSubmit={this.onSubmit}
+						/>
 
-					<Footer
-						clearCompleted={this.clearCompleted}
-						filter={filter}
-						filterChange={this.filterChange}
-						todoCount={todoCount}
-						doneCount={doneCount}
-					/>
+						<Footer
+							clearCompleted={this.clearCompleted}
+							filter={filter}
+							filterChange={this.filterChange}
+							todoCount={todoCount}
+							doneCount={doneCount}
+						/>
+					</section>
 				</section>
-			</section>
+			</div>
+
 		);
 	}
 }

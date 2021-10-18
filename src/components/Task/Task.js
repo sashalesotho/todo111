@@ -2,6 +2,7 @@ import React from 'react';
 import './Task.css';
 import { formatDistanceToNow } from 'date-fns';
 import PropTypes from 'prop-types';
+import Timer from '../Timer';
 
 const Task = ({ onDeleted, onToggleDone, done, changeItem, editing, onChangeHandler, stateTask, onSubmit }) => {
 	let classNames = 'todo-list-item description';
@@ -12,20 +13,23 @@ const Task = ({ onDeleted, onToggleDone, done, changeItem, editing, onChangeHand
 
 	const createdDate = new Date();
 
-	const getTaskMarkup = () => {
-		if (editing) {
-			return (
-				<label className={classNames}>
-					<input className="description form-control" onChange={onChangeHandler} defaultValue={stateTask} required />{' '}
-				</label>
-			);
-		}
-		return (
+	let editingTask;
+	if (editing) {
+		editingTask = (
+			<label className={classNames}>
+				<input className="description form-control" onChange={onChangeHandler} defaultValue={stateTask} />{' '}
+			</label>
+		);
+	} else {
+		editingTask = (
+
 			<div className={classNames}>
 				<input className="toggle" type="checkbox" checked={done} onChange={onToggleDone} />
 
 				<label>
 					<span className={classNames}>{stateTask}</span>
+					<Timer />
+
 					<span className="created">created {formatDistanceToNow(createdDate, { includeSeconds: true })} ago</span>
 				</label>
 
@@ -38,11 +42,12 @@ const Task = ({ onDeleted, onToggleDone, done, changeItem, editing, onChangeHand
 				</button>
 			</div>
 		);
-	};
+	}
 
 	return (
 		<form onSubmit={onSubmit}>
-			<div className="view">{getTaskMarkup()}</div>
+			<div className="view">{editingTask}</div>
+
 		</form>
 	);
 };
