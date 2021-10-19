@@ -36,7 +36,7 @@ export default class Timer extends Component {
 		timerOn()
 	}
 
-	tick() {
+	tick = () => {
 		const { countdown, timerOff } = this.props;
 		if (!countdown) return;
 		const { end } = this.state;
