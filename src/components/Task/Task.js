@@ -4,7 +4,7 @@ import { formatDistanceToNow } from 'date-fns';
 import PropTypes from 'prop-types';
 import Timer from '../Timer';
 
-const Task = ({ onDeleted, onToggleDone, done, changeItem, editing, onChangeHandler, stateTask, onSubmit }) => {
+const Task = ({ onDeleted, onToggleDone, done, changeItem, editing, onChangeHandler, stateTask, onSubmit, deadline, countdown, timerOff, timerOn }) => {
 	let classNames = 'todo-list-item description';
 
 	if (done) {
@@ -12,6 +12,15 @@ const Task = ({ onDeleted, onToggleDone, done, changeItem, editing, onChangeHand
 	}
 
 	const createdDate = new Date();
+
+	let timer;
+	if (deadline === 'x') {
+		timer = <Timer deadline={1} countdown={false} />
+	} else if (deadline) {
+		timer = <Timer deadline={deadline} countdown={countdown} timerOn={timerOn} timerOff={(date) => timerOff(date)} />
+	} else {
+		timer = null
+	}
 
 	let editingTask;
 	if (editing) {
@@ -28,7 +37,7 @@ const Task = ({ onDeleted, onToggleDone, done, changeItem, editing, onChangeHand
 
 				<label>
 					<span className={classNames}>{stateTask}</span>
-					<Timer />
+					{timer}
 
 					<span className="created">created {formatDistanceToNow(createdDate, { includeSeconds: true })} ago</span>
 				</label>
@@ -61,6 +70,10 @@ Task.defaultProps = {
 	onChangeHandler: () => {},
 	stateTask: '',
 	onSubmit: () => {},
+	deadline: 0,
+	countdown: false,
+	timerOn: () => {},
+	timerOff: () => {},
 };
 
 Task.propTypes = {
@@ -72,6 +85,10 @@ Task.propTypes = {
 	onChangeHandler: PropTypes.func,
 	stateTask: PropTypes.string,
 	onSubmit: PropTypes.func,
+	deadline: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+	countdown: PropTypes.bool,
+	timerOn: PropTypes.func,
+	timerOff: PropTypes.func,
 };
 
 export default Task;

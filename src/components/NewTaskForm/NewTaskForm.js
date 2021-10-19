@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import './NewTaskForm.css';
 
 export default class NewTaskForm extends Component {
 	state = {
 		label: '',
+		timerMin: '',
+		timerSec: '',
 	};
 
 	onLabelChange = (e) => {
@@ -12,21 +15,30 @@ export default class NewTaskForm extends Component {
 				label: e.target.value,
 			});
 		}
-
 	};
+
+	onInputChange = (e) => {
+		const { target } = e;
+		const { value, name } = target;
+		this.setState({
+			[name]: value,
+		})
+	}
 
 	onSubmit = (e) => {
 		const { onItemAdded } = this.props;
-		const { label } = this.state;
+		const { label, timerMin, timerSec } = this.state;
 		e.preventDefault();
-		onItemAdded(label);
+		onItemAdded(label, timerMin, timerSec );
 		this.setState({
 			label: '',
+			timerMin: '',
+			timerSec: '',
 		});
 	};
 
 	render() {
-		const { label } = this.state;
+		const { label, timerMin, timerSec } = this.state;
 
 		return (
 			<div>
@@ -37,15 +49,17 @@ export default class NewTaskForm extends Component {
 
 					<input
 						type="text"
+						name="label"
 						className="new-todo"
 						value={label}
 						placeholder="What needs to be done?"
 						onChange={this.onLabelChange}
 						required
-
-						// pattern = '[a-z]{1,15}'
-
 					/>
+
+					<input type='number' name='timerMin' className='new-todo-timer' max='60' placeholder='min' onChange={this.onInputChange} value={timerMin} />
+					<input type='number' name='timerSec' className='new-todo-timer' max='60' placeholder='sec' onChange={this.onInputChange} value={timerSec} />
+					<input type='submit' className='form-submit' value='ok' />
 				</form>
 			</div>
 		);
